@@ -13,6 +13,11 @@ const sendResponse = (response, body, status = 200) => {
   response.send(body)
 }
 
+const sendSuccessResponse = (response, body) => {
+  response.status = 200
+  response.send(body)
+}
+
 export const clearAllCheckouts = (_, __) => Checkouts.deleteAll()
 
 export const getCheckout = (request, response) =>
@@ -67,82 +72,98 @@ export const postItem = (request, response) => {
 
 const LineWidth = 45
 
-export const postCheckoutTotal = (request, response) => {
-  const checkoutId = request.params.id
-  const checkout = Checkouts.retrieve(checkoutId)
-  if (!checkout) {
-    response.status = 400
-    response.send({error: 'nonexistent checkout'})
-    return
-  }
+const formatTotal = dollarAmount => parseFloat(round2(dollarAmount).toString()).toFixed(2)
 
-  const messages = []
-  const discount = checkout.member ? checkout.discount : 0
-
-  let totalOfDiscountedItems = 0
-  let total = 0
-  let totalSaved = 0
-
-  checkout.items.forEach(item => {
-    let price = item.price
-    const isExempt = item.exempt
-    if (!isExempt && discount > 0) {
-      const discountAmount = discount * price
-      const discountedPrice = price * (1.0 - discount)
-
-      // add into total
-      totalOfDiscountedItems += discountedPrice
-
-      let text = item.description
-      // format percent
-      const amount = parseFloat((Math.round(price * 100) / 100).toString()).toFixed(2)
-      const amountWidth = amount.length
-
-      let textWidth = LineWidth - amountWidth
-      messages.push(pad(text, textWidth) + amount)
-
-      total += discountedPrice
-
-      // discount line
-      const discountFormatted = '-' + parseFloat((Math.round(discountAmount * 100) / 100).toString()).toFixed(2)
-      textWidth = LineWidth - discountFormatted.length
-      text = `   ${discount * 100}% mbr disc`
-      messages.push(`${pad(text, textWidth)}${discountFormatted}`)
-
-      totalSaved += discountAmount
-    }
-    else {
-      total += price
-      const text = item.description
-      const amount = parseFloat((Math.round(price * 100) / 100).toString()).toFixed(2)
-      const amountWidth = amount.length
-
-      const textWidth = LineWidth - amountWidth
-      messages.push(pad(text, textWidth) + amount)
-    }
-  })
-
-  total = Math.round(total * 100) / 100
-
-  // append total line
-  const formattedTotal = parseFloat((Math.round(total * 100) / 100).toString()).toFixed(2)
+const createLineItem = (dollarAmount, description) => {
+  const formattedTotal = formatTotal(dollarAmount)
   const formattedTotalWidth = formattedTotal.length
   const textWidth = LineWidth - formattedTotalWidth
-  messages.push(pad('TOTAL', textWidth) + formattedTotal)
+  return pad(description, textWidth) + formattedTotal;
+}
 
-  if (totalSaved > 0) {
-    const formattedTotal = parseFloat((Math.round(totalSaved * 100) / 100).toString()).toFixed(2)
-    console.log(`formattedTotal: ${formattedTotal}`)
-    const formattedTotalWidth = formattedTotal.length
-    const textWidth = LineWidth - formattedTotalWidth
-    messages.push(pad('*** You saved:', textWidth) + formattedTotal)
-  }
+const round2 = amount => Math.round(amount * 100) / 100
 
-  totalOfDiscountedItems = Math.round(totalOfDiscountedItems * 100) / 100
+const memberDiscountPercent = checkout => checkout.member ? checkout.discount : 0
 
-  totalSaved = Math.round(totalSaved * 100) / 100
+const sendErrorResponse = (response, errorMessage = 'nonexistent checkout') => {
+  response.status = 400
+  response.send({error: errorMessage})
+}
 
-  response.status = 200
-  // send total saved instead
-  response.send({ id: checkoutId, total, totalOfDiscountedItems, messages, totalSaved })
+const shouldDiscountItem = (item, checkout) =>
+ !item.exempt && memberDiscountPercent(checkout) > 0
+
+const discountedPrice = (item, checkout) => item.price * (1.0 - memberDiscountPercent(checkout))
+
+function memberDiscountDescription(checkout) {
+  return `   ${memberDiscountPercent(checkout) * 100}% mbr disc`;
+}
+
+const calculateTotalDiscountItems = checkout =>
+  checkout.items
+    .filter(item => shouldDiscountItem(item, checkout))
+    .reduce((total, item) => total + discountedPrice(item, checkout), 0)
+
+const calculateTotalSaved = checkout => {
+  let totalSaved = 0
+  checkout.items.forEach(item => {
+    if (shouldDiscountItem(item, checkout)) {
+      totalSaved += memberDiscountPercent(checkout) * item.price
+    }
+  })
+  return totalSaved
+}
+
+const calculateTotal = checkout => {
+  let total = 0
+  checkout.items.forEach(item => {
+    if (shouldDiscountItem(item, checkout))
+      total += discountedPrice(item, checkout)
+    else
+      total += item.price
+  })
+  return total
+}
+
+const calculateTotals = checkout => ({
+  totalSaved: calculateTotalSaved(checkout),
+  total: calculateTotal(checkout),
+  totalOfDiscountedItems: calculateTotalDiscountItems(checkout)
+})
+
+const gatherLineItems = (checkout, total, totalSaved) => {
+  const messages = []
+
+  checkout.items.forEach(item => {
+    messages.push(createLineItem(item.price, item.description))
+    if (shouldDiscountItem(item, checkout))
+      messages.push(createLineItem(-(memberDiscountPercent(checkout) * item.price), memberDiscountDescription(checkout)))
+  })
+
+  messages.push(createLineItem(round2(total), 'TOTAL'))
+  if (totalSaved > 0)
+    messages.push(createLineItem(totalSaved, '*** You saved:'))
+
+  return messages;
+}
+
+const gatherCheckoutDetails = checkout => {
+  const { total, totalSaved, totalOfDiscountedItems } = calculateTotals(checkout)
+  const messages = gatherLineItems(checkout, total, totalSaved);
+  return { messages, total, totalSaved, totalOfDiscountedItems }
+}
+
+export const postCheckoutTotal = (request, response) => {
+  const checkout = Checkouts.retrieve(request.params.id)
+  if (!checkout) return sendErrorResponse(response)
+
+  const { messages,  total, totalOfDiscountedItems, totalSaved } = gatherCheckoutDetails(checkout)
+
+  sendSuccessResponse(response, {
+    id: checkout.id,
+    total: round2(total),
+    totalOfDiscountedItems: round2(totalOfDiscountedItems),
+    totalSaved: round2(totalSaved),
+    messages,
+  })
 }
