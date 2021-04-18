@@ -1,3 +1,10 @@
+export const value = (portfolio, stockService) =>
+  Object.entries(portfolio.holdings)
+    .reduce((total, entry) => {
+      const [symbol, shares] = entry
+      return total + (stockService(symbol) * shares)},
+    0)
+
 export const symbolCount = portfolio =>
   Object.keys(portfolio.holdings).length
 
