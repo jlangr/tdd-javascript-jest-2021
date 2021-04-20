@@ -90,20 +90,24 @@ describe("a portfolio", () => {
     });
   });
 
-  describe("value", () => {
+  describe("totalValueOfPortfolio", () => {
     beforeEach(() => {
       portfolio = Portfolio.create();
     });
 
     const stockService = () => 16;
 
-    it("has value of 0 when portfolio is empty", () => {
-      expect(Portfolio.value(portfolio, () => {})).toEqual(0);
+    it("has totalValueOfPortfolio of 0 when portfolio is empty", () => {
+      expect(Portfolio.totalValueOfPortfolio(portfolio, () => {})).toEqual(0);
     });
 
-    it("has value equivalent to the purchase price of a stock after purchase", () => {
+    it("has totalValueOfPortfolio equivalent to the purchase price of a stock after purchase", () => {
       portfolio = Portfolio.purchase(portfolio, "BAYN", 1);
-      expect(Portfolio.value(portfolio, stockService)).toEqual(16);
+      expect(Portfolio.totalValueOfPortfolio(portfolio, stockService)).toEqual(16);
+    });
+    it("has totalValueOfPortfolio equivalent to the purchase price of a stock after purchase", () => {
+      portfolio = Portfolio.purchase(portfolio, "BAYN", 2);
+      expect(Portfolio.totalValueOfPortfolio(portfolio, stockService)).toEqual(16);
     });
   });
 });

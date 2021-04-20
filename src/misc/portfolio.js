@@ -1,5 +1,9 @@
-export const value = (portfolio, stockService) =>
-  isEmpty(portfolio) ? 0 : stockService();
+const sumOfValues = (portfolio, stockService) => {
+  return stockService();
+}
+
+export const totalValueOfPortfolio = (portfolio, stockService) =>
+  isEmpty(portfolio) ? 0 : sumOfValues(portfolio, stockService);
 
 export const sharesOf = (portfolio, symbol) =>
   symbol in portfolio.holdings ? portfolio.holdings[symbol] : 0;
