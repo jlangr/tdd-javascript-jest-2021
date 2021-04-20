@@ -96,12 +96,21 @@ describe('a portfolio', () => {
     })
 
     it('has value of 0 when portfolio is empty', () => {
-      expect(Portfolio.value(portfolio)).toEqual(0)
+      expect(Portfolio.value(portfolio, () => 0)).toEqual(0)
     })
 
     it('has value of share price when portfolio holds one share', () => {
+      const BAYER_PRICE = 16
+      const getPrice = () => BAYER_PRICE
       portfolio = Portfolio.purchase(portfolio, "BAYN", 1)
-      expect(Portfolio.value(portfolio)).toEqual(16)
+      expect(Portfolio.value(portfolio, getPrice)).toEqual(BAYER_PRICE)
+    })
+
+    it('has value of ten shares when portfolio holds ten shares', () => {
+      const BAYER_PRICE = 16
+      const getPrice = () => BAYER_PRICE
+      portfolio = Portfolio.purchase(portfolio, "BAYN", 10)
+      expect(Portfolio.value(portfolio, getPrice)).toEqual(BAYER_PRICE * 10)
     })
 
   })
