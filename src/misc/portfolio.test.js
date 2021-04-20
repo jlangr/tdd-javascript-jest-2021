@@ -99,5 +99,10 @@ describe('a portfolio', () => {
       expect(Portfolio.value(portfolio)).toEqual(0)
     })
 
+    it('has value of share price when portfolio holds one share', () => {
+      portfolio = Portfolio.purchase(portfolio, "BAYN", 1)
+      expect(Portfolio.value(portfolio)).toEqual(16)
+    })
+
   })
 })

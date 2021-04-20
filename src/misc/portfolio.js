@@ -1,4 +1,4 @@
-export const value = undefined
+export const value = (portfolio) => 0
 
 export const sharesOf = (portfolio, symbol) =>
   (symbol in portfolio.holdings) ? portfolio.holdings[symbol] : 0
