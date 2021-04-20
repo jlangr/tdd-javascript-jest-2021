@@ -91,6 +91,7 @@ describe("a portfolio", () => {
   });
 
   describe("value", () => {
+    const stockPriceService = () => 1;
     beforeEach(() => {
       portfolio = Portfolio.create();
     });
@@ -101,7 +102,7 @@ describe("a portfolio", () => {
 
     it("has value of 1 when portfolio contains single stock", () => {
       portfolio = Portfolio.purchase(portfolio, "GME", 1);
-      expect(Portfolio.value(portfolio)).toEqual(1);
+      expect(Portfolio.value(portfolio, stockPriceService)).toEqual(1);
     });
   });
 });

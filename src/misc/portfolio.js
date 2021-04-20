@@ -1,4 +1,4 @@
-export const value = () => 0;
+export const value = (portfolio, priceService) => isEmpty(portfolio) ? 0 : priceService();
 
 export const sharesOf = (portfolio, symbol) =>
   symbol in portfolio.holdings ? portfolio.holdings[symbol] : 0;
