@@ -91,18 +91,30 @@ describe("a portfolio", () => {
   });
 
   describe("value", () => {
-    const stockPriceService = () => 1;
+    const stockPriceService = (symbol) => 1;
     beforeEach(() => {
       portfolio = Portfolio.create();
     });
-
-    it("has value of 0 when portfolio is empty", () => {
-      expect(Portfolio.value(portfolio)).toEqual(0);
+    describe("when empty", () => {
+      it("has value of 0", () => {
+        expect(Portfolio.value(portfolio)).toEqual(0);
+      });
+    });
+    describe("when a single purchase is made", () => {
+      it("has value of individual stock", () => {
+        portfolio = Portfolio.purchase(portfolio, "GME", 1);
+        expect(Portfolio.value(portfolio, stockPriceService)).toEqual(1);
+      });
     });
 
-    it("has value of 1 when portfolio contains single stock", () => {
-      portfolio = Portfolio.purchase(portfolio, "GME", 1);
-      expect(Portfolio.value(portfolio, stockPriceService)).toEqual(1);
+    describe("when multiple purchases are made", () => {
+      describe("with multiple shares", () => {
+        it("has value of 1 when portfolio contains single stock", () => {
+          portfolio = Portfolio.purchase(portfolio, "GME", 3);
+          expect(Portfolio.value(portfolio, stockPriceService)).toEqual(3);
+        });
+      });
+      //symbols
     });
   });
 });
