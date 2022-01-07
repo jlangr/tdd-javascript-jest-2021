@@ -1,7 +1,7 @@
 ## Fundamentals
 
 This Javascript implementation uses Jest and supports ES6.
-Clay Fete
+Clayton Fete
 ```
 npm install
 npm test 
