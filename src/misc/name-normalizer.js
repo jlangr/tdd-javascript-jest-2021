@@ -5,15 +5,21 @@
 
 const parts = name => name.split(' ')
 
-const last = name => parts(name).at(-1)
+const last = name => parts(name)[parts(name).length-1]
+
+const middle = name => parts(name)[1]
 
 const first = name => parts(name)[0]
+
+const abbreviate = name => `${name.charAt(0)}.`
 
 const isMononym = name => parts(name).length === 1
 
 const isTwoName = name => parts(name).length === 2
 
 const isThreeName = name => parts(name).length === 3
+
+const isNumName = (name, num) => parts(name).length === num
 
 const trimWhiteSpace = name => name.trim()
 
@@ -27,5 +33,5 @@ export const normalize = name => {
   else if (isTwoName(name)){
     return `${last(name)}, ${first(name)}`
   }
-  
+  return `${last(name)}, ${first(name)} ${abbreviate(middle(name))}`
 }
