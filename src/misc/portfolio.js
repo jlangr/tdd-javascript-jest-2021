@@ -1,12 +1,13 @@
 export const create = () => {
-    return { uniqueSymbols: 0 }
+  return { uniqueSymbols: new Set() }
 }
 
 export const uniqueSymbolCount = (portfolio) => {
-    return portfolio.uniqueSymbols
+  return portfolio.uniqueSymbols.size
 }
 
-export const purchase = (portfolio, _symbol, _num) => {
-  let updatedUniqueSymbols = portfolio.uniqueSymbols + 1
+export const purchase = (portfolio, symbol, _num) => {
+  let updatedUniqueSymbols = new Set(portfolio.uniqueSymbols)
+  updatedUniqueSymbols.add(symbol)
   return { ...portfolio, uniqueSymbols: updatedUniqueSymbols }
 }
