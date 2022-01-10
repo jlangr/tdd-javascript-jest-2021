@@ -17,4 +17,11 @@ describe('shares portfolio', () => {
 
     expect(uniqueSymbolCount(newPortfolio)).toBe(1)
   })
+
+  it('2 unique symbol after purchase of additional symbol', () => {
+    let newPortfolio = purchase(portfolio, "IBM", 16)
+    newPortfolio = purchase(newPortfolio, "AAPL", 10)
+
+    expect(uniqueSymbolCount(newPortfolio)).toBe(2)
+  })
 })
