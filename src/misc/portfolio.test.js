@@ -1,14 +1,14 @@
-import Portfolio from './portfolio'
+import {create, uniqueSymbolCount} from './portfolio'
 
 describe('shares portfolio', () => {
 
   let portfolio;
 
   beforeEach( () => {
-    portfolio = Portfolio.create()
+    portfolio = create()
   })
 
   it('0 count when no purchases made', () => {
-    expect(portfolio.uniqueSymbolCount()).toBe(0)
+    expect(uniqueSymbolCount()).toBe(0)
   })
 })
