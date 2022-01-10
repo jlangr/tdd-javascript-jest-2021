@@ -31,4 +31,8 @@ describe('shares portfolio', () => {
 
     expect(uniqueSymbolCount(newPortfolio)).toBe(1)
   })
+
+  it('does not have any shares of symbol when first created', () => {
+    expect(getSymbolShares("IBM")).toBe(0)
+  })
 })
