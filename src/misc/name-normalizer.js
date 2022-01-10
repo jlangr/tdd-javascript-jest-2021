@@ -27,6 +27,8 @@ const trimWhiteSpace = name => name.trim()
 
 export const normalize = name => {
 
+  let suffix = name.indexOf(",")
+
   let sanitizedName = trimWhiteSpace(name)
   let firstName = first(sanitizedName)
   let lastName = last(sanitizedName)

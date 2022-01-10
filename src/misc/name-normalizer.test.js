@@ -25,11 +25,11 @@ describe('a name normalizer', () => {
     expect(normalize("Harry S Truman")).toEqual("Truman, Harry S")
   })
 
-  xit('throws exception if name of length greater than 3 is used', () => {
-    expect(normalize("Nick Alex Dan Chris")).toThrow("Unexpected name format.")
-  })
-
   it('initializes each of multiple middle names', () =>
     expect(normalize("Julia Scarlett Elizabeth Louis-Dreyfus"))
       .toEqual("Louis-Dreyfus, Julia S. E."))
+  
+  it('appends suffixes to end', () =>
+    expect(normalize("Martin Luther King, Jr.")).toEqual("King, Martin L., Jr."))
+  
 })
