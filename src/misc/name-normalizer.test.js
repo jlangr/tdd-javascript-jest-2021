@@ -29,7 +29,7 @@ describe('a name normalizer', () => {
     expect(normalize("Julia Scarlett Elizabeth Louis-Dreyfus"))
       .toEqual("Louis-Dreyfus, Julia S. E."))
   
-  it('appends suffixes to end', () =>
+  xit('appends suffixes to end', () =>
     expect(normalize("Martin Luther King, Jr.")).toEqual("King, Martin L., Jr."))
   
 })

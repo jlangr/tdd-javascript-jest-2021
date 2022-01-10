@@ -19,6 +19,8 @@ const abbreviate = name => {
   return `${name.charAt(0)}.`
 }
 
+const suffixPresent = name => name.indexOf(',') >= -1
+
 const isMononym = name => parts(name).length === 1
 
 const isTwoName = name => parts(name).length === 2
