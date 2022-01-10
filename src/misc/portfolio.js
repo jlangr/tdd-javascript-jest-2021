@@ -7,5 +7,6 @@ export const uniqueSymbolCount = (portfolio) => {
 }
 
 export const purchase = (portfolio, _symbol, _num) => {
-  return { ...portfolio, uniqueSymbols: 1 }
+  let updatedUniqueSymbols = portfolio.uniqueSymbols + 1
+  return { ...portfolio, uniqueSymbols: updatedUniqueSymbols }
 }
