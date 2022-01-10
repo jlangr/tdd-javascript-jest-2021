@@ -31,15 +31,16 @@ const trimWhiteSpace = name => name.trim()
 
 export const normalize = name => {
 
-  name = trimWhiteSpace(name)
+  let sanitizedName = trimWhiteSpace(name)
+  let firstName = first(sanitizedName)
+  let lastName = last(sanitizedName)
 
-  if (isMononym(name)) {
-    return name
+  if (isMononym(sanitizedName)) {
+    return sanitizedName
   }
-  else if (isTwoName(name)){
-    return `${last(name)}, ${first(name)}`
+  else if (isTwoName(sanitizedName)){
+    return `${lastName}, ${firstName}`
   }
-  else if (isThreeName(name)) {
-    return `${last(name)}, ${first(name)} ${abbreviate(middle(name))}`
-  }
+
+  return `${lastName}, ${firstName} ${abbreviate(middle(sanitizedName))}`
 }
