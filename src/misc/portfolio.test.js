@@ -9,12 +9,12 @@ describe('shares portfolio', () => {
   })
 
   it('0 count when no purchases made', () => {
-    expect(uniqueSymbolCount()).toBe(0)
+    expect(uniqueSymbolCount(portfolio)).toBe(0)
   })
 
   it('1 unique symbol after 1 purchase', () => {
-    purchase(portfolio, "IBM", 16)
+    let newPortfolio = purchase(portfolio, "IBM", 16)
 
-    expect(uniqueSymbolCount()).toBe(1)
+    expect(uniqueSymbolCount(newPortfolio)).toBe(1)
   })
 })

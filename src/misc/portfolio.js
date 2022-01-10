@@ -1,11 +1,11 @@
 export const create = () => {
-    return {}
+    return { uniqueSymbols: 0 }
 }
 
-export const uniqueSymbolCount = () => {
-    return 0
+export const uniqueSymbolCount = (portfolio) => {
+    return portfolio.uniqueSymbols
 }
 
-export const purchase = (portfolio, symbol, num) => {
-  return { ...portfolio, uniqueSymbols: 1}
+export const purchase = (portfolio, _symbol, _num) => {
+  return { ...portfolio, uniqueSymbols: 1 }
 }
