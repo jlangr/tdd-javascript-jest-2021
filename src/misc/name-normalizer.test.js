@@ -24,4 +24,8 @@ describe('a name normalizer', () => {
   it("initializes a single letter middle name properly", () => {
     expect(normalize("Harry S Truman")).toEqual("Truman, Harry S")
   })
+
+  it('throws exception if name of length greater than 3 is used', () => {
+    expect(normalize("Nick Alex Dan Chris")).toThrow("Unexpected name format.")
+  })
 })

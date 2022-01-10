@@ -39,5 +39,8 @@ export const normalize = name => {
   else if (isTwoName(name)){
     return `${last(name)}, ${first(name)}`
   }
-  return `${last(name)}, ${first(name)} ${abbreviate(middle(name))}`
+  else if (isThreeName(name)) {
+    return `${last(name)}, ${first(name)} ${abbreviate(middle(name))}`
+  }
+  throw new Error("Unexpected name format.")
 }
