@@ -5,7 +5,7 @@
 
 const parts = name => name.split(' ')
 
-const last = name => parts(name)[1]
+const last = name => parts(name).at(-1)
 
 const first = name => parts(name)[0]
 
@@ -25,7 +25,7 @@ export const normalize = name => {
     return name
   }
   else if (isTwoName(name)){
-    
+    return `${last(name)}, ${first(name)}`
   }
-  return `${last(name)}, ${first(name)}`
+  
 }
