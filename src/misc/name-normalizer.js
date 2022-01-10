@@ -11,12 +11,21 @@ const first = name => parts(name)[0]
 
 const isMononym = name => parts(name).length === 1
 
+const isTwoName = name => parts(name).length === 2
+
+const isThreeName = name => parts(name).length === 3
+
 const trimWhiteSpace = name => name.trim()
 
 export const normalize = name => {
 
   name = trimWhiteSpace(name)
 
-  if (isMononym(name)) return name
+  if (isMononym(name)) {
+    return name
+  }
+  else if (isTwoName(name)){
+    
+  }
   return `${last(name)}, ${first(name)}`
 }
