@@ -1,7 +1,14 @@
 import Portfolio from './portfolio'
 
 describe('shares portfolio', () => {
+
+  let portfolio;
+
+  beforeEach( () => {
+    portfolio = Portfolio.create()
+  })
+
   it('0 count when no purchases made', () => {
-    let portfolio = Portfolio.create()
+    expect(portfolio.symbols.length()).toBe(0)
   })
 })
