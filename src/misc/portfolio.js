@@ -7,14 +7,14 @@ export const uniqueSymbolCount = (portfolio) => {
 }
 
 export const getSymbolShares = (portfolio, symbol) => {
-  return portfolio.symbols
+  return portfolio.symbols[symbol] || 0
 }
  
 export const purchase = (portfolio, symbol, num) => {
   let updatedUniqueSymbols = new Set(portfolio.uniqueSymbols)
   updatedUniqueSymbols.add(symbol)
 
-  let countCurrentSymbol = portfolio.symbols[symbol] ?? 0
+  let countCurrentSymbol = portfolio.symbols[symbol] || 0
   countCurrentSymbol += num
   portfolio.symbols[symbol] = countCurrentSymbol
 

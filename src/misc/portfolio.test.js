@@ -1,4 +1,4 @@
-import {create, purchase, uniqueSymbolCount} from './portfolio'
+import {create, purchase, uniqueSymbolCount, getSymbolShares} from './portfolio'
 
 describe('shares portfolio', () => {
 
@@ -33,6 +33,12 @@ describe('shares portfolio', () => {
   })
 
   it('does not have any shares of symbol when first created', () => {
-    expect(getSymbolShares("IBM")).toBe(0)
+    expect(getSymbolShares(portfolio, "IBM")).toBe(0)
+  })
+
+  it('does get number of shares for given symbol', () => {
+    let newPortfolio = purchase(portfolio, "IBM", 16)
+
+    expect(getSymbolShares(newPortfolio, "IBM")).toBe(16)
   })
 })
