@@ -1,9 +1,9 @@
 export const create = () => {
-  return { uniqueSymbols: new Set(), symbols: {} }
+  return { symbols: {} }
 }
 
 export const uniqueSymbolCount = (portfolio) => {
-  return portfolio.uniqueSymbols.size
+  return Object.keys(portfolio.symbols).length
 }
 
 export const getSymbolShares = (portfolio, symbol) => {
@@ -11,12 +11,10 @@ export const getSymbolShares = (portfolio, symbol) => {
 }
  
 export const purchase = (portfolio, symbol, num) => {
-  let updatedUniqueSymbols = new Set(portfolio.uniqueSymbols)
-  updatedUniqueSymbols.add(symbol)
+  let initialShareCount = portfolio.symbols[symbol] || 0
 
-  let countCurrentSymbol = portfolio.symbols[symbol] || 0
-  countCurrentSymbol += num
-  portfolio.symbols[symbol] = countCurrentSymbol
+  initialShareCount += num
+  portfolio.symbols[symbol] = initialShareCount
 
-  return { ...portfolio, uniqueSymbols: updatedUniqueSymbols }
+  return { ...portfolio }
 }
