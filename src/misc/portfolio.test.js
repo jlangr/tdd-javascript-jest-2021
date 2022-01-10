@@ -9,6 +9,6 @@ describe('shares portfolio', () => {
   })
 
   it('0 count when no purchases made', () => {
-    expect(portfolio.symbols.length()).toBe(0)
+    expect(portfolio.uniqueSymbolCount()).toBe(0)
   })
 })
