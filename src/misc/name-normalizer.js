@@ -7,7 +7,7 @@ const parts = name => name.split(' ')
 
 const last = name => parts(name)[parts(name).length-1]
 
-const middle = name => parts(name)[1]
+const middles = name => parts(name).slice(1,-1)
 
 const first = name => parts(name)[0]
 
@@ -22,10 +22,6 @@ const abbreviate = name => {
 const isMononym = name => parts(name).length === 1
 
 const isTwoName = name => parts(name).length === 2
-
-const isThreeName = name => parts(name).length === 3
-
-const isNumName = (name, num) => parts(name).length === num
 
 const trimWhiteSpace = name => name.trim()
 
@@ -42,5 +38,6 @@ export const normalize = name => {
     return `${lastName}, ${firstName}`
   }
 
-  return `${lastName}, ${firstName} ${abbreviate(middle(sanitizedName))}`
+  let middleNames = middles(sanitizedName).map( abbreviate ).join(" ")
+  return `${lastName}, ${firstName} ${middleNames}`
 }
