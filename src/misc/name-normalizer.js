@@ -11,7 +11,13 @@ const middle = name => parts(name)[1]
 
 const first = name => parts(name)[0]
 
-const abbreviate = name => `${name.charAt(0)}.`
+const abbreviate = name => {
+  if(name.length === 1){
+    return name.charAt(0)
+  }
+
+  return `${name.charAt(0)}.`
+}
 
 const isMononym = name => parts(name).length === 1
 
