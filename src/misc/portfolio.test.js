@@ -57,8 +57,6 @@ describe('shares portfolio', () => {
   it('Does not allow sale of more share than owned', () => {
     let newPortfolio = purchase(portfolio, "IBM", 16)
 
-    newPortfolio = sell(newPortfolio, "IBM", 26)
-
-    expect(() => getSymbolShares(newPortfolio, "IBM")).toThrow()
+    expect(() => sell(newPortfolio, "IBM", 26) ).toThrow()
   })
 })

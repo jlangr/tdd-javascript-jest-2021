@@ -23,9 +23,13 @@ export const purchase = (portfolio, symbol, num) => {
 }
 
 export const sell = (portfolio, symbol, num) => {
-    let newPortfolio = { ...portfolio }
+  let newPortfolio = { ...portfolio }
 
-    newPortfolio.symbols[symbol] = getSymbolShares(portfolio, symbol) - num
+  if(getSymbolShares(portfolio, symbol) < num){
+    throw new Error("Can't sell more share than owned in portfolio.")
+  }
+
+  newPortfolio.symbols[symbol] = getSymbolShares(portfolio, symbol) - num
   
-    return newPortfolio
+  return newPortfolio
 }
