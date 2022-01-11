@@ -38,7 +38,6 @@ describe('a portfolio', () => {
   describe('shares of symbol', () => {
     it('returns 0 for shares of unpurchased symbol', () => {
       expect(Portfolio.sharesOf(portfolio, 'BAYN')).toEqual(0)
-
     })
 
     it('returns shares for single symbol purchase', () => {
@@ -63,9 +62,13 @@ describe('a portfolio', () => {
   })
 
   describe('purchase constraints', () => {
-    it('barfs on purchase of non-positive shares', () => {
-      expect(() =>  Portfolio.purchase(portfolio, 'BAYN', 0)).toThrow()
-      expect(() =>  Portfolio.purchase(portfolio, 'BAYN', -10)).toThrow()
+    [
+      { shares: 0, info: 'zero disallowed' },
+      { shares: -10, info: 'negative numbers disallowed' },
+    ].forEach(({ shares, _info }) => {
+      it('barfs on purchase of 0 shares', () => {
+        expect(() => Portfolio.purchase(portfolio, 'BAYN', shares)).toThrow()
+      })
     })
   })
 
