@@ -12,7 +12,7 @@ export const getSymbolShares = (portfolio, symbol) => {
  
 export const purchase = (portfolio, symbol, num) => {
   if (num < 0){
-      throw new Error("Error")
+      throw new Error("Can't purchase negative shares")
   }
   let initialShareCount = portfolio.symbols[symbol] || 0
 
