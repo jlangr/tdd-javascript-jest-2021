@@ -1,4 +1,4 @@
-import { convertNumber } from "./roman-numerals-2";
+import { convertNumber } from "./roman-numerals";
 
 describe("Roman Numeral Conversions", () => {
     it("returns I for 1", () => {
@@ -55,5 +55,21 @@ describe("Roman Numeral Conversions", () => {
 
     it("returns IV for 4", () => {
         expect(convertNumber(4)).toEqual("IV");
+    });
+
+    it("returns IX for 9", () => {
+        expect(convertNumber(9)).toEqual("IX");
+    });
+
+    it("returns XL for 40", () => {
+        expect(convertNumber(40)).toEqual("XL");
+    });
+
+    it("returns MCM for 1900", () => {
+        expect(convertNumber(1900)).toEqual("MCM");
+    });
+
+    it("returns MV for 4000", () => {
+        expect(convertNumber(4000)).toEqual("MV");
     });
 })
