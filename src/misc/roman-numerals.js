@@ -1,8 +1,16 @@
 // map of symbols
+const numeralsMap = {
+  1:"I",
+  5:"V",
+  10:"X"
+};
 // follow existing pattern by iterating over a map of the roman symbols
 
 const toRomanNumeral = (integer) => {
-  const tens = parseInt(integer / 10)
+  for (const [int, numeral] of Object.entries(numeralsMap).reverse()) {
+    
+  }
+  const tens = parseInt(integer / 10);
   const fives = parseInt((integer % 10) / 5);
   const fivesMod = integer % 5;
 

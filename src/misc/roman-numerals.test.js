@@ -21,10 +21,16 @@ describe("Roman Numerals", () => {
     }
   });
 
-  it("returns X when given 10", () => {
-    const result = toRomanNumeral(10);
+  it("returns X's when given 10, 20, and 30", () => {
+    for (const num of [10, 20, 30]) {
+      const result = toRomanNumeral(num);
+      expect(result).toEqual("X".repeat(num / 10));
+    }
+  });
 
-    expect(result).toEqual("X");
+  it("returns XVIII when given 18", () => {
+    const result = toRomanNumeral(18);
+    expect(result).toEqual("XVIII");
   });
 
   // test map of symbols (before writing map)
