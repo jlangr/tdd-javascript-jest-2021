@@ -29,11 +29,15 @@ export const sell = (portfolio, symbol, num) => {
     throw new Error("Zero shares not allowed")
   }
 
+  if (num < 0){
+    throw new Error("Negative shares not allowed")
+  }
+
   if(getSymbolShares(portfolio, symbol) === 0) {
     throw new Error("Can't sell shares you don't own")
   }
 
-  if(getSymbolShares(portfolio, symbol) < num){
+  if(getSymbolShares(portfolio, symbol) < num) {
     throw new Error("Can't sell more share than owned in portfolio.")
   }
 

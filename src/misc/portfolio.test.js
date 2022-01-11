@@ -70,4 +70,8 @@ describe('shares portfolio', () => {
     expect(() => sell(portfolio, "IBM", 0)).toThrow("Zero shares not allowed")
   })
 
+  it('throws an error if trying to sell negative shares', () => {
+    expect(() => sell(portfolio, "IBM", -10)).toThrow("Negative shares not allowed")
+  })
+
 })
