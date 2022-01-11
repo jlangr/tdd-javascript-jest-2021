@@ -1,4 +1,3 @@
-import e from "express";
 
 export const convertNumber = (number) => {
     const digitLookup = {
@@ -14,28 +13,19 @@ export const convertNumber = (number) => {
     let romanNumeral = "";
     let numberString = "";
     let numDigits = 0;
-
-    // let remainder = doModulus(number);
-    // numberString = number.toString();
-    // numDigits = numberString.length;
-    // if (remainder === 0) {
-    //     romanNumeral += digitLookup[numberString[0]]
-    // }
-
+    
     while (number != 0) {
         numberString = number.toString();
         numDigits = numberString.length;
-        const base10 = 10**(numDigits-1);
-        
-        console.log('numberString: ', numberString, ' ----- base10', base10);
+        const base10 = 10 ** (numDigits - 1);
 
-        if (doModulus(number) === 0) {
-            romanNumeral += digitLookup[base10.toString()]
-        } else {
+        // if (doModulus(number) === 0) {
+        //     romanNumeral += digitLookup[base10.toString()]
+        // } else {
             for (let x = 0; x < numberString[0]; x++) {
                 romanNumeral += digitLookup[base10.toString()];
             }
-        }
+        // }
         number = doModulus(number);
     }
 

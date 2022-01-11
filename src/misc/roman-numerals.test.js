@@ -1,4 +1,4 @@
-import { convertNumber } from "./roman-numerals";
+import { convertNumber } from "./roman-numerals-2";
 
 describe("Roman Numeral Conversions", () => {
     it("returns I for 1", () => {
@@ -45,7 +45,15 @@ describe("Roman Numeral Conversions", () => {
         expect(convertNumber(1233)).toEqual("MCCXXXIII");
     });
 
-    it.only("returns V for 5", () => {
+    it("returns V for 5", () => {
         expect(convertNumber(5)).toEqual("V");
+    });
+
+    it("returns LXXVII for 77", () => {
+        expect(convertNumber(77)).toEqual("LXXVII");
+    });
+
+    it("returns IV for 4", () => {
+        expect(convertNumber(4)).toEqual("IV");
     });
 })
