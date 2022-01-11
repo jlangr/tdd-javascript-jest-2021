@@ -1,3 +1,8 @@
+
 export const convert = (num) => {
-  return "I".repeat(num)
+  if(num < 4) {
+    return "I".repeat(num)
+  }
+
+  return "IV"
 }
