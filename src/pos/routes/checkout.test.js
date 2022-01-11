@@ -162,29 +162,34 @@ describe('checkout routes', () => {
   describe('checkout total', () => {
     beforeEach(() => response = createEmptyResponse())
 
-    it('does stuff', () => {
+    it('confirms postCheckoutTotal response with multiple items', () => {
       IncrementingIdGenerator.reset(checkoutId)
       postCheckout({}, response)
-      overrideRetrieveItem(() => {})
+
       // set up for discountng
       overrideRetrieveItem(() => ({ upc: '333', price: 3.33, description: '', exempt: false }))
       postItem({ params: { id: checkoutId }, body: { upc: '333' } }, response)
-      overrideRetrieveItem(() => {})
-      console.log('req id', checkoutId )
+      
       overrideRetrieveItem(() => ({ upc: '444', price: 4.44, description: '', exempt: false }))
       postItem({ params: { id: checkoutId }, body: { upc: '444' } }, response)
-      overrideRetrieveItem(() => {})
+
       const request = { params: { id: checkoutId }}
-      response = createEmptyResponse()
-      postCheckoutTotal(request, response)
-      expect(response.status).toEqual(200)
-      console.log('reseponse status', response.status)
-      const firstCallFirstArg = response.send.mock.calls[0][0]
-      expect(firstCallFirstArg).toMatchObject({ total: 7.77 })
-      //  not found
-      postCheckoutTotal({ params: { id: 'unknown' }}, response)
-      expect(response.status).toEqual(400)
-      expect(response.send).toHaveBeenCalledWith({ error: 'nonexistent checkout' })
+      const checkoutTotalResponse = createEmptyResponse()
+      postCheckoutTotal(request, checkoutTotalResponse)
+
+      expect(checkoutTotalResponse.status).toEqual(200)
+      expectResponseSentToMatch(checkoutTotalResponse, { total: 7.77})
+    })
+      
+    it("responds with a 400 message for nonexistant checkouts", () => {
+      IncrementingIdGenerator.reset(checkoutId)
+      postCheckout({}, response)
+
+      const checkoutTotalResponse = createEmptyResponse()
+
+      postCheckoutTotal({ params: { id: 'unknown' }}, checkoutTotalResponse)
+      expect(checkoutTotalResponse.status).toEqual(400)
+      expect(checkoutTotalResponse.send).toHaveBeenCalledWith({ error: 'nonexistent checkout' })
     })
 
     it('applies any member discount', () => {
