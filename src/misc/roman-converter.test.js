@@ -9,7 +9,8 @@ describe('roman converter test', () => {
     {number: 50, roman: "L"},
     {number: 10, roman: "X"},
     {number: 5, roman: "V"},
-    {number: 1, roman:"I"}
+    {number: 1, roman:"I"},
+    {number: 6, roman:"VI"}
   ]
   testArray.forEach(({number, roman}) => {
     it(`can convert ${number} to roman numeral`, () => {
