@@ -57,6 +57,12 @@ describe('shares portfolio', () => {
   it('Does not allow sale of more share than owned', () => {
     let newPortfolio = purchase(portfolio, "IBM", 16)
 
-    expect(() => sell(newPortfolio, "IBM", 26) ).toThrow()
+    expect(() => sell(newPortfolio, "IBM", 26) ).toThrow("Can't sell more share than owned in portfolio.")
+  })
+
+  it('Does not allow sale of symbol not owned', () => {
+    let newPortfolio = purchase(portfolio, "IBM", 16)
+
+    expect(() => sell(newPortfolio, "APPL", 10) ).toThrow("Can't sell symbol not in portfolio")
   })
 })
