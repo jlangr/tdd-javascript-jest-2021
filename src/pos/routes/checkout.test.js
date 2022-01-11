@@ -206,16 +206,18 @@ describe('checkout routes', () => {
       console.log('reseponse status', response.status)
       const firstCallFirstArg = response.send.mock.calls[0][0]
       expect(firstCallFirstArg).toMatchObject({ total: 7.77 })
-      //  not found
+    })
+
+    it('', () => {
 
     })
 
-    it('returns error if checkout id not found') {
+    it('returns error if checkout id not found', () => {
+      response = createEmptyResponse()
       postCheckoutTotal({ params: { id: 'unknown' }}, response)
       expect(response.status).toEqual(400)
       expect(response.send).toHaveBeenCalledWith({ error: 'nonexistent checkout' })
-    }
-
+    })
 
     it('applies any member discount', () => {
       scanMember('719-287-4335', 0.25)
