@@ -43,8 +43,8 @@ describe("Portfolio", () => {
   });
 
   it("updates shares bought over multiple purchases", () => {
-		portfolio.purchase("ASDF", 10);
-		portfolio.purchase("ASDF", 10);
+    portfolio.purchase("ASDF", 10);
+    portfolio.purchase("ASDF", 10);
 
     expect(portfolio.getShareCount("ASDF")).toEqual(20);
   });
