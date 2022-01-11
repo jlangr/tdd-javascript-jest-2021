@@ -208,7 +208,7 @@ describe('checkout routes', () => {
       expect(firstCallFirstArg).toMatchObject({ total: 7.77 })
     })
 
-    it('', () => {
+    it('totals multiple items together in checkout', () => {
 
     })
 
