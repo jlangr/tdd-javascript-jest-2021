@@ -1,18 +1,30 @@
 
-const singleDigit = num => {
-  if(num === 5){
-    return "V"
-  }
+const covertUnitsToRoman = (num, conversionDict) => {
+  console.log(num,conversionDict)
+  if(num < 1)
+    return ""
 
-  if(num === 10){
-    return "X"
-  }
+  let romanUnit = conversionDict[0].romanUnit
+  let arabicUnit = conversionDict[0].arabicUnit
+  conversionDict.shift()
 
-  return "I".repeat(num)
+  return romanUnit.repeat(Math.floor(num/arabicUnit)) +
+    covertUnitsToRoman(num%arabicUnit, conversionDict)
 }
 
 export const convert = (num) => {
-  return singleDigit(num)
+  return covertUnitsToRoman(
+    num,
+    [
+      { romanUnit: "M", arabicUnit: 1000 },
+      { romanUnit: "D", arabicUnit: 500 },
+      { romanUnit: "C", arabicUnit: 100 },
+      { romanUnit: "L", arabicUnit: 50 },
+      { romanUnit: "X", arabicUnit: 10 },
+      { romanUnit: "V", arabicUnit: 5 },
+      { romanUnit: "I", arabicUnit: 1 }
+    ]
+  )
 }
 
 `
