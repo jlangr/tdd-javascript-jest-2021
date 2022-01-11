@@ -22,6 +22,10 @@ export const purchase = (portfolio, symbol, num) => {
   return newPortfolio
 }
 
-export const sell = (portfolio, shares, num) => {
-    
+export const sell = (portfolio, symbol, num) => {
+    let newPortfolio = { ...portfolio }
+
+    newPortfolio.symbols[symbol] = getSymbolShares(portfolio, symbol) - num
+  
+    return newPortfolio
 }

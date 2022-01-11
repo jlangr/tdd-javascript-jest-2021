@@ -1,4 +1,4 @@
-import {create, purchase, uniqueSymbolCount, getSymbolShares} from './portfolio'
+import {create, purchase, uniqueSymbolCount, getSymbolShares, sell} from './portfolio'
 
 describe('shares portfolio', () => {
 
@@ -54,4 +54,11 @@ describe('shares portfolio', () => {
     expect(getSymbolShares(newPortfolio, "IBM")).toBe(10)
   })
 
+  it('Does not allow sale of more share than owned', () => {
+    let newPortfolio = purchase(portfolio, "IBM", 16)
+
+    newPortfolio = sell(newPortfolio, "IBM", 26)
+
+    expect(() => getSymbolShares(newPortfolio, "IBM")).toThrow()
+  })
 })
