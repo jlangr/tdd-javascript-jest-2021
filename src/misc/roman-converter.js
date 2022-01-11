@@ -11,6 +11,14 @@ const covertUnitsToRoman = (num, conversionDict) => {
     covertUnitsToRoman(num%arabicUnit, conversionDict)
 }
 
+const convertDigit = (digit, minChar, midChar, maxChar) => {
+  switch(digit){
+    case 0: return ""
+    case 1: return minChar 
+
+    }
+}
+
 export const convert = (num) => {
   return covertUnitsToRoman(
     num,
