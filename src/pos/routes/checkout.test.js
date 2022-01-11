@@ -195,9 +195,8 @@ describe('checkout routes', () => {
       postItem({ params: { id: checkoutId }, body: { upc: '333' } }, response)
       overrideRetrieveItem(() => ({ upc: '444', price: 4.44, description: '', exempt: false }))
       postItem({ params: { id: checkoutId }, body: { upc: '444' } }, response)
-
-
       response = createEmptyResponse()
+
       postCheckoutTotal({ params: { id: checkoutId }}, response)
       const firstCallFirstArg = response.send.mock.calls[0][0]
 
