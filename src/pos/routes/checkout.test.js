@@ -162,26 +162,21 @@ describe('checkout routes', () => {
   describe('checkout total', () => {
     beforeEach(() => response = createEmptyResponse())
 
-    it('does stuff', () => {
-      IncrementingIdGenerator.reset(checkoutId)
-      postCheckout({}, response)
-      overrideRetrieveItem(() => {})
-      // set up for discountng
-      overrideRetrieveItem(() => ({ upc: '333', price: 3.33, description: '', exempt: false }))
+    it('successful checkout', () => {
+      overrideRetrieveItem(() => ({ upc: '333', price: 3.33, description: '' }))
       postItem({ params: { id: checkoutId }, body: { upc: '333' } }, response)
-      overrideRetrieveItem(() => {})
-      console.log('req id', checkoutId )
-      overrideRetrieveItem(() => ({ upc: '444', price: 4.44, description: '', exempt: false }))
+      overrideRetrieveItem(() => ({ upc: '444', price: 4.44, description: '' }))
       postItem({ params: { id: checkoutId }, body: { upc: '444' } }, response)
-      overrideRetrieveItem(() => {})
-      const request = { params: { id: checkoutId }}
+
       response = createEmptyResponse()
-      postCheckoutTotal(request, response)
+      
+      postCheckoutTotal({ params: { id: checkoutId }}, response)
+  
       expect(response.status).toEqual(200)
-      console.log('reseponse status', response.status)
-      const firstCallFirstArg = response.send.mock.calls[0][0]
-      expect(firstCallFirstArg).toMatchObject({ total: 7.77 })
-      //  not found
+      expectResponseSentToMatch(response, { total: 7.77 })
+    })
+
+    it('returns error with nonexistent checkout', () => {
       postCheckoutTotal({ params: { id: 'unknown' }}, response)
       expect(response.status).toEqual(400)
       expect(response.send).toHaveBeenCalledWith({ error: 'nonexistent checkout' })
