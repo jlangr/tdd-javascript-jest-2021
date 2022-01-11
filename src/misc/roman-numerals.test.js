@@ -41,7 +41,11 @@ describe("Roman Numeral Conversions", () => {
         expect(convertNumber(1103)).toEqual("MCIII");
     });
 
-    xit("returns MCCXXXIII for 1233", () => {
+    it("returns MCCXXXIII for 1233", () => {
         expect(convertNumber(1233)).toEqual("MCCXXXIII");
+    });
+
+    it.only("returns V for 5", () => {
+        expect(convertNumber(5)).toEqual("V");
     });
 })
