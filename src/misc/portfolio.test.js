@@ -63,6 +63,6 @@ describe('shares portfolio', () => {
   it('Does not allow sale of symbol not owned', () => {
     let newPortfolio = purchase(portfolio, "IBM", 16)
 
-    expect(() => sell(newPortfolio, "APPL", 10) ).toThrow("Can't sell symbol not in portfolio")
+    expect(() => sell(newPortfolio, "APPL", 10) ).toThrow("Can't sell shares you don't own")
   })
 })
