@@ -1,6 +1,5 @@
 
 const covertUnitsToRoman = (num, conversionDict) => {
-  console.log(num,conversionDict)
   if(num < 1)
     return ""
 
