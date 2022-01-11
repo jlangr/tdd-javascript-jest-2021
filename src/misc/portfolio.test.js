@@ -65,4 +65,9 @@ describe('shares portfolio', () => {
 
     expect(() => sell(newPortfolio, "APPL", 10) ).toThrow("Can't sell shares you don't own")
   })
+
+  it('throws an error if trying to sell zero shares', () => {
+    expect(() => sell(portfolio, "IBM", 0)).toThrow("Zero shares not allowed")
+  })
+
 })

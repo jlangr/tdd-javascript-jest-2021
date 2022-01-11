@@ -25,6 +25,10 @@ export const purchase = (portfolio, symbol, num) => {
 export const sell = (portfolio, symbol, num) => {
   let newPortfolio = { ...portfolio }
 
+  if (num === 0){
+    throw new Error("Zero shares not allowed")
+  }
+
   if(getSymbolShares(portfolio, symbol) === 0) {
     throw new Error("Can't sell shares you don't own")
   }
