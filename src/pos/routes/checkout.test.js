@@ -190,15 +190,15 @@ describe('checkout routes', () => {
     it('does stuff (refactored)', () => {
       IncrementingIdGenerator.reset(checkoutId)
       postCheckout({}, response)
-      overrideRetrieveItem(() => {})
+      //overrideRetrieveItem(() => {})
       // set up for discountng
       overrideRetrieveItem(() => ({ upc: '333', price: 3.33, description: '', exempt: false }))
       postItem({ params: { id: checkoutId }, body: { upc: '333' } }, response)
-      overrideRetrieveItem(() => {})
+      //overrideRetrieveItem(() => {})
       console.log('req id', checkoutId )
       overrideRetrieveItem(() => ({ upc: '444', price: 4.44, description: '', exempt: false }))
       postItem({ params: { id: checkoutId }, body: { upc: '444' } }, response)
-      overrideRetrieveItem(() => {})
+      //overrideRetrieveItem(() => {})
       const request = { params: { id: checkoutId }}
       response = createEmptyResponse()
       postCheckoutTotal(request, response)
