@@ -48,4 +48,32 @@ describe("Portfolio", () => {
 
     expect(portfolio.getShareCount("ASDF")).toEqual(20);
   });
+
+  it("decreases the share count by the sell amount", () => {
+    portfolio.purchase("ASDF", 10);
+    portfolio.sell("ASDF", 5);
+
+    expect(portfolio.getShareCount("ASDF")).toEqual(5);
+  });
+
+  it("throws when selling more shares than exist", () => {
+    portfolio.purchase("ASDF", 10);
+
+    expect(() => portfolio.sell("ASDF", 15)).toThrow();
+  });
+
+  it("throws when selling 0 or negative amount of shares", () => {
+    portfolio.purchase("ASDF", 10);
+
+    expect(() => portfolio.sell("ASDF", -15)).toThrow();
+    expect(() => portfolio.sell("ASDF", 0)).toThrow();
+  });
+
+  it("decrements the symbol count after selling all shares of a given symbol", () => {
+    portfolio.purchase("ASDF", 10);
+    expect(portfolio.getSymbolCount).toEqual(1);
+
+    portfolio.sell("ASDF", 10);
+    expect(portfolio.getSymbolCount).toEqual(0);
+  });
 });

@@ -31,4 +31,22 @@ export default class Portfolio {
     const existingShares = this.getShareCount(symbol);
     this.symbols.set(symbol, shares + existingShares);
   }
+
+  sell(symbol, shares) {
+    if (shares <= 0) {
+      throw new Error("You need to sell at least 1 share.");
+    }
+    const existingShares = this.getShareCount(symbol);
+
+    if (shares > existingShares) {
+      throw new Error("Cannot sell more shares than you have.");
+    }
+    const newShareAmount = existingShares - shares;
+
+    if (newShareAmount === 0) {
+      this.symbols.delete(symbol);
+    } else {
+      this.symbols.set(symbol, newShareAmount);
+    }
+  }
 }
