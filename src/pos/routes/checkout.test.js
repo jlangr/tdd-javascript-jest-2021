@@ -190,21 +190,19 @@ describe('checkout routes', () => {
     it('does stuff (refactored)', () => {
       IncrementingIdGenerator.reset(checkoutId)
       postCheckout({}, response)
-      //overrideRetrieveItem(() => {})
+
       // set up for discountng
       overrideRetrieveItem(() => ({ upc: '333', price: 3.33, description: '', exempt: false }))
       postItem({ params: { id: checkoutId }, body: { upc: '333' } }, response)
-      //overrideRetrieveItem(() => {})
-      console.log('req id', checkoutId )
+
       overrideRetrieveItem(() => ({ upc: '444', price: 4.44, description: '', exempt: false }))
       postItem({ params: { id: checkoutId }, body: { upc: '444' } }, response)
-      //overrideRetrieveItem(() => {})
+
       const request = { params: { id: checkoutId }}
-      response = createEmptyResponse()
       postCheckoutTotal(request, response)
-      expect(response.status).toEqual(200)
-      console.log('reseponse status', response.status)
       const firstCallFirstArg = response.send.mock.calls[0][0]
+
+      expect(response.status).toEqual(200)
       expect(firstCallFirstArg).toMatchObject({ total: 7.77 })
     })
 
@@ -213,7 +211,6 @@ describe('checkout routes', () => {
     })
 
     it('returns error if checkout id not found', () => {
-      response = createEmptyResponse()
       postCheckoutTotal({ params: { id: 'unknown' }}, response)
       expect(response.status).toEqual(400)
       expect(response.send).toHaveBeenCalledWith({ error: 'nonexistent checkout' })
