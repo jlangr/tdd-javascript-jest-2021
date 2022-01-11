@@ -1,10 +1,20 @@
-export const create = () => ({uniqueSymbols: new Set()});
+export const create = () => ({ sharesBySymbol: {} })
 
-export const purchase = (portfolio, symbol, _numberOfShares) => {
-  const newUniqueSymbols = new Set(portfolio.uniqueSymbols)
-  newUniqueSymbols.add(symbol)
-  return { ...portfolio, uniqueSymbols: newUniqueSymbols }
-};
+const validate = numberOfShares => { if (numberOfShares <= 0) throw new Error(); };
 
-export const uniqueSymbolCount = portfolio => portfolio.uniqueSymbols.size;
+export const purchase = (portfolio, symbol, numberOfShares) => {
+  validate(numberOfShares);
+  return {
+    ...portfolio,
+    sharesBySymbol: {
+      ...portfolio.sharesBySymbol,
+      [symbol]: sharesOf(portfolio, symbol) + numberOfShares
+    }
+  }
+}
+
+export const uniqueSymbolCount = portfolio =>
+  Object.keys(portfolio.sharesBySymbol).length
+
+export const sharesOf = (portfolio, symbol) => portfolio.sharesBySymbol[symbol] || 0
 
