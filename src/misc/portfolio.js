@@ -12,12 +12,12 @@ export const getSymbolShares = (portfolio, symbol) => {
  
 export const purchase = (portfolio, symbol, num) => {
   if (num < 0){
-      throw new Error("Can't purchase negative shares")
+    throw new Error("Can't purchase negative shares")
   }
-  let initialShareCount = portfolio.symbols[symbol] || 0
 
-  initialShareCount += num
-  portfolio.symbols[symbol] = initialShareCount
+  let newPortfolio = { ...portfolio }
 
-  return { ...portfolio }
+  newPortfolio.symbols[symbol] = getSymbolShares(portfolio, symbol) + num
+
+  return newPortfolio
 }
