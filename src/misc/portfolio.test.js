@@ -72,5 +72,29 @@ describe('a portfolio', () => {
     })
   })
 
+  describe('sell shares', () => {
+    it('should sell given number of shares', () => {
+      let newPortfolio = Portfolio.purchase(portfolio, 'BAYN', 20)
+      newPortfolio = Portfolio.sell(newPortfolio, 'BAYN', 10)
+      expect(Portfolio.sharesOf(newPortfolio, 'BAYN')).toEqual(10)
+    })
+
+    it('should not sell more shares than you have', () => {
+      let newPortfolio = Portfolio.purchase(portfolio, 'BAYN', 20)
+      expect(() => Portfolio.sell(newPortfolio, 'BAYN', 30)).toThrow()
+    })
+
+    it('should not sell more symbol you do not have', () => {
+      let newPortfolio = Portfolio.purchase(portfolio, 'BAYN', 20)
+      expect(() => Portfolio.sell(newPortfolio, 'TESL', 30)).toThrow()
+    })
+
+    it('should remove the symbol when selling all of a stock', () => {
+      let newPortfolio = Portfolio.purchase(portfolio, 'BAYN', 20)
+      newPortfolio = Portfolio.sell(newPortfolio, 'BAYN', 20)
+      expect(newPortfolio).toEqual({sharesBySymbol: {}})
+    })
+  })
+
 })
 
