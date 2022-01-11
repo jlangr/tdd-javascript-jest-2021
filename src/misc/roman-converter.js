@@ -1,9 +1,5 @@
 
-
-
-
-export const convert = (num) => {
-
+const singleDigit = num => {
   if(num === 5){
     return "V"
   }
@@ -13,7 +9,10 @@ export const convert = (num) => {
   }
 
   return "I".repeat(num)
+}
 
+export const convert = (num) => {
+  return singleDigit(num)
 }
 
 `
