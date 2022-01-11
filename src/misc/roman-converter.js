@@ -8,3 +8,16 @@ export const convert = (num) => {
   return "I".repeat(num)
 
 }
+
+`
+I
+II
+III
+IV
+V
+VI
+VII
+VIII
+IX
+X
+`
