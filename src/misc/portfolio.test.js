@@ -45,4 +45,13 @@ describe('shares portfolio', () => {
   it('throws an error if negative shares purchased', () => {
     expect(() => purchase(portfolio, "IBM", -16)).toThrow()
   })
+
+  it('does sell a positive number of shares and reduces the count', () => {
+    let newPortfolio = purchase(portfolio, "IBM", 16)
+
+    newPortfolio = sell(newPortfolio, "IBM", 6)
+
+    expect(getSymbolShares(newPortfolio, "IBM")).toBe(10)
+  })
+
 })

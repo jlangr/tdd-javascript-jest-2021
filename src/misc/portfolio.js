@@ -21,3 +21,7 @@ export const purchase = (portfolio, symbol, num) => {
 
   return newPortfolio
 }
+
+export const sell = (portfolio, shares, num) => {
+    
+}
