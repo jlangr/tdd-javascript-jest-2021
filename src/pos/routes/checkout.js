@@ -92,22 +92,10 @@ export const postCheckoutTotal = (request, response) => {
 
       // add into total
       totalOfDiscountedItems += discountedPrice
-
-      let text = item.description
-      // format percent
-      const amount = formatAmount(price)
-      const amountWidth = amount.length
-
-      let textWidth = LineWidth - amountWidth
-      messages.push(pad(text, textWidth) + amount)
+      messages.push(formatReceiptEntry(price, item.description))
 
       total += discountedPrice
-
-      // discount line
-      const discountFormatted = '-' + formatAmount(discountAmount)
-      textWidth = LineWidth - discountFormatted.length
-      text = `   ${discount * 100}% mbr disc`
-      messages.push(`${pad(text, textWidth)}${discountFormatted}`)
+      messages.push(formatReceiptEntry(discountAmount*-1, `   ${discount * 100}% mbr disc`))
 
       totalSaved += discountAmount
     }
