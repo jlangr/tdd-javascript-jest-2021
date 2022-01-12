@@ -113,12 +113,7 @@ export const postCheckoutTotal = (request, response) => {
     }
     else {
       total += price
-      const text = item.description
-      const amount = formatAmount(price)
-      const amountWidth = amount.length
-
-      const textWidth = LineWidth - amountWidth
-      messages.push(pad(text, textWidth) + amount)
+      messages.push(formatReceiptEntry(price, item.description))
     }
   })
 
