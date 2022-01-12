@@ -95,7 +95,17 @@ describe('shares portfolio', () => {
       expect(valueOf(portfolio,stockPriceLookup)).toBe(20)
     })
 
-    it("")
+    it("can calculate value for multiple symbols in portfolio", () => {
+      const stockPriceLookup = (symbol) => {
+        if (symbol === 'BAYN') return 10
+        if (symbol === 'AAPL') return 100
+      }
+
+      purchase(portfolio, 'BAYN', 2)
+      purchase(portfolio, 'AAPL', 3)
+
+      expect(valueOf(portfolio, stockPriceLookup)).toBe(320)
+    })
   })
 
 })

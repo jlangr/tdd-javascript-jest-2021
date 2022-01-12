@@ -3,7 +3,11 @@ export const create = () => {
 }
 
 export const uniqueSymbolCount = (portfolio) => {
-  return Object.keys(portfolio.symbols).length
+  return symbolsInPortfolio(portfolio).length
+}
+
+export const symbolsInPortfolio = (portfolio) => {
+  return Object.keys(portfolio.symbols)
 }
 
 export const getSymbolShares = (portfolio, symbol) => {
@@ -48,6 +52,6 @@ export const sell = (portfolio, symbol, num) => {
 
 export const valueOf = (portfolio, stockPriceLook) => {
   if(uniqueSymbolCount(portfolio) === 0){ return 0 }
-  const symbol = Object.keys(portfolio.symbols)[0]
+  const symbol = symbolsInPortfolio(portfolio)[0]
   return stockPriceLook() * getSymbolShares(portfolio, symbol)
 }
