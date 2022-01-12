@@ -67,6 +67,10 @@ export const postItem = (request, response) => {
 
 const LineWidth = 45
 
+function shouldDiscountProduct(isExempt, discount) {
+  return !isExempt && discount > 0;
+}
+
 export const postCheckoutTotal = (request, response) => {
   const checkoutId = request.params.id
   const checkout = Checkouts.retrieve(checkoutId)
@@ -88,7 +92,7 @@ export const postCheckoutTotal = (request, response) => {
     const isExempt = item.exempt
     messages.push(formatReceiptEntry(price, item.description))
 
-    if (!isExempt && discount > 0) {
+    if (shouldDiscountProduct(isExempt, discount)) {
       const discountAmount = discount * price
       const discountedPrice = price * (1.0 - discount)
 
