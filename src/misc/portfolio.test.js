@@ -94,6 +94,8 @@ describe('shares portfolio', () => {
 
       expect(valueOf(portfolio,stockPriceLookup)).toBe(20)
     })
+
+    it("")
   })
 
 })
