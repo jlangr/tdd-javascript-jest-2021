@@ -90,7 +90,7 @@ export const postCheckoutTotal = (request, response) => {
   let totalSaved = 0
 
   checkout.items.forEach(item => {
-    const { price, exempt: isExempt } = item
+    const { price, exempt: isExempt,  description: text } = item
     if (!isExempt && discount > 0) {
 
       // add into total
@@ -109,7 +109,7 @@ export const postCheckoutTotal = (request, response) => {
       // discount line
       const discountFormatted = '-' + formatPrice(discountAmount(discount, price))
       textWidth = LineWidth - discountFormatted.length
-      text = `   ${discount * 100}% mbr disc`
+     const text = `   ${discount * 100}% mbr disc`
       messages.push(`${pad(text, textWidth)}${discountFormatted}`)
 
       totalSaved += discountAmount(discount, price)
