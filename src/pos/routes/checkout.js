@@ -67,7 +67,11 @@ export const postItem = (request, response) => {
 
 const LineWidth = 45
 
+const formatPrice = (price)=> parseFloat((Math.round(price * 100) / 100).toString()).toFixed(2)
+
+
 export const postCheckoutTotal = (request, response) => {
+
   const checkoutId = request.params.id
   const checkout = Checkouts.retrieve(checkoutId)
   if (!checkout) {
@@ -95,7 +99,7 @@ export const postCheckoutTotal = (request, response) => {
 
       let text = item.description
       // format percent
-      const amount = parseFloat((Math.round(price * 100) / 100).toString()).toFixed(2)
+      const amount = formatPrice(price)
       const amountWidth = amount.length
 
       let textWidth = LineWidth - amountWidth
