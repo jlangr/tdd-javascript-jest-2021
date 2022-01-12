@@ -1,3 +1,4 @@
+import { when } from 'jest-when'
 import * as Portfolio from './portfolio'
 
 describe('a portfolio', () => {
@@ -93,6 +94,34 @@ describe('a portfolio', () => {
       let newPortfolio = Portfolio.purchase(portfolio, 'BAYN', 20)
       newPortfolio = Portfolio.sell(newPortfolio, 'BAYN', 20)
       expect(newPortfolio).toEqual({sharesBySymbol: {}})
+    })
+  })
+
+  describe('portfolio value', () => {
+    const BAYER_STOCK_PRICE = 16
+    const TEST_STOCK_PRICE = 5
+    const serviceStub = jest.fn();
+    when(serviceStub).calledWith('BAYN').mockReturnValue(BAYER_STOCK_PRICE)
+    when(serviceStub).calledWith('TEST').mockReturnValue(TEST_STOCK_PRICE)
+    
+    it('should return the value of a single share of a stock', () => {
+      let newPortfolio = Portfolio.purchase(portfolio, 'BAYN', 1)
+      expect(Portfolio.getValueOfShares(newPortfolio, 'BAYN', serviceStub)).toBe(BAYER_STOCK_PRICE)
+    });
+
+    it('should return the value of multiple shares of a stock', () => {
+      let newPortfolio = Portfolio.purchase(portfolio, 'BAYN', 10)
+      expect(Portfolio.getValueOfShares(newPortfolio, 'BAYN', serviceStub)).toBe(160)
+    });
+
+    it('should return 0 when you have an empty portfolio', () => {
+      expect(Portfolio.getTotalValue(portfolio)).toEqual(0);
+    })
+
+    it('should return portfolio value if you have multiple different stocks', () => {
+      let newPortfolio = Portfolio.purchase(portfolio, 'BAYN', 1)
+      newPortfolio = Portfolio.purchase(newPortfolio, 'TEST', 1)
+      expect(Portfolio.getTotalValue(newPortfolio, serviceStub)).toBe(21)
     })
   })
 

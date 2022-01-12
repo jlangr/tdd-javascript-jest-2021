@@ -32,4 +32,16 @@ export const uniqueSymbolCount = portfolio =>
 
 export const sharesOf = (portfolio, symbol) => portfolio.sharesBySymbol[symbol] || 0
 
+export const getValueOfShares = (portfolio, symbol, stockPriceApi) => {
+  const symbolPrice = stockPriceApi(symbol);
+  const shares = sharesOf(portfolio, symbol);
+  return shares * symbolPrice;
+};
 
+export const getTotalValue = (portfolio, stockPriceApi) => {
+  let totalValue = 0;
+  Object.keys(portfolio.sharesBySymbol).forEach(symbol => {
+    totalValue += getValueOfShares(portfolio, symbol, stockPriceApi)
+  })
+  return totalValue
+}
