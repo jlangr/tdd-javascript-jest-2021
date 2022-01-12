@@ -125,21 +125,13 @@ export const postCheckoutTotal = (request, response) => {
   total = roundTwoDecimalPlaces(total)
 
   // append total line
-  const formattedTotal = formatAmount(total)
-  const formattedTotalWidth = formattedTotal.length
-  const textWidth = LineWidth - formattedTotalWidth
-  messages.push(pad('TOTAL', textWidth) + formattedTotal)
+  messages.push(formatReceiptEntry(total, 'TOTAL'))
 
   if (totalSaved > 0) {
-    const formattedTotal = formatAmount(totalSaved)
-    console.log(`formattedTotal: ${formattedTotal}`)
-    const formattedTotalWidth = formattedTotal.length
-    const textWidth = LineWidth - formattedTotalWidth
-    messages.push(pad('*** You saved:', textWidth) + formattedTotal)
+    messages.push(formatReceiptEntry(totalSaved, '*** You saved:'))
   }
 
   totalOfDiscountedItems = roundTwoDecimalPlaces(totalOfDiscountedItems)
-
   totalSaved = roundTwoDecimalPlaces(totalSaved)
 
   response.status = 200
@@ -152,3 +144,10 @@ const roundTwoDecimalPlaces = (amount) => Math.round(amount * 100) / 100
 const formatTwoDecimalPlaces = (amount) => parseFloat(amount.toString()).toFixed(2)
 
 const formatAmount = (amount) => formatTwoDecimalPlaces(roundTwoDecimalPlaces(amount))
+
+const formatReceiptEntry = (amount, linePrefix) => {
+  const formattedTotal = formatAmount(amount)
+  const formattedTotalWidth = formattedTotal.length
+  const textWidth = LineWidth - formattedTotalWidth
+  return pad(linePrefix, textWidth) + formattedTotal
+}
