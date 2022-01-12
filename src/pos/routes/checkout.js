@@ -73,6 +73,14 @@ const formatPrice = (price)=> floatToFixed(price).toFixed(2)
 const discountAmount = (discount, price) => discount * price
 const discountedPrice = (discount, price) => price * (1.0 - discount)
 
+const pushMessage = (messages, text, price) => {
+  const amount = formatPrice(price)
+  const amountWidth = amount.length
+
+  const textWidth = LineWidth - amountWidth
+  messages.push(pad(text, textWidth) + amount)
+}
+
 export const postCheckoutTotal = (request, response) => {
   const checkoutId = request.params.id
   const checkout = Checkouts.retrieve(checkoutId)
@@ -90,38 +98,39 @@ export const postCheckoutTotal = (request, response) => {
   let totalSaved = 0
 
   checkout.items.forEach(item => {
-    const { price, exempt: isExempt,  description: text } = item
+    const { price, exempt: isExempt } = item
     if (!isExempt && discount > 0) {
 
       // add into total
       totalOfDiscountedItems += discountedPrice(discount, price)
 
-      let text = item.description
       // format percent
-      const amount = formatPrice(price)
-      const amountWidth = amount.length
+      pushMessage(messages, item.description, price)
+      // const amount = formatPrice(price)
+      // const amountWidth = amount.length
 
-      let textWidth = LineWidth - amountWidth
-      messages.push(pad(text, textWidth) + amount)
+      // let textWidth = LineWidth - amountWidth
+      // messages.push(pad(text, textWidth) + amount)
 
       total += discountedPrice(discount, price)
 
       // discount line
       const discountFormatted = '-' + formatPrice(discountAmount(discount, price))
-      textWidth = LineWidth - discountFormatted.length
-     const text = `   ${discount * 100}% mbr disc`
+      const textWidth = LineWidth - discountFormatted.length
+      const text = `   ${discount * 100}% mbr disc`
       messages.push(`${pad(text, textWidth)}${discountFormatted}`)
 
       totalSaved += discountAmount(discount, price)
     }
     else {
       total += price
-      const text = item.description
-      const amount = formatPrice(price)
-      const amountWidth = amount.length
+      pushMessage(messages, item.description, price)
+      // const text = item.description
+      // const amount = formatPrice(price)
+      // const amountWidth = amount.length
 
-      const textWidth = LineWidth - amountWidth
-      messages.push(pad(text, textWidth) + amount)
+      // const textWidth = LineWidth - amountWidth
+      // messages.push(pad(text, textWidth) + amount)
     }
   })
 
