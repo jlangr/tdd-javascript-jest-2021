@@ -24,6 +24,13 @@ export default class Portfolio {
     return this.symbols.get(symbol) || 0;
   }
 
+  getValue(stockLookupFunction) {
+    if (stockLookupFunction) {
+      return stockLookupFunction()
+    }
+    return 0
+  }
+
   purchase(symbol, shares) {
     if (shares < 0) {
       throw new Error("Cannot buy less that 0 shares.");

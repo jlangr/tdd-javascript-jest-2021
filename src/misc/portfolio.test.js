@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import Portfolio from "./portfolio";
 
 describe("Portfolio", () => {
@@ -7,16 +6,20 @@ describe("Portfolio", () => {
   fdescribe("value", () => {
 
     it("has no value", () => {
-      expect(portfolio.getValue).toEqual(0);
+      expect(portfolio.getValue()).toEqual(0);
     });
     it("returns value of 1 share", () => {
-      expect(portfolio.getValue).toEqual(1);
+      const stubFunction = () => 20
+
+      portfolio.purchase("ASDF", 1)
+
+      expect(portfolio.getValue(stubFunction)).toEqual(20);
     });
-    it("returns value of multiple share", () => {
+    xit("returns value of multiple share", () => {
       expect(portfolio.getValue).toEqual(1);
     });
 
-    it("returns value of share for multiple symbols", () => {
+    xit("returns value of share for multiple symbols", () => {
       expect(portfolio.getValue).toEqual(1);
     });
   });
