@@ -98,14 +98,14 @@ export const postCheckoutTotal = (request, response) => {
   let totalSaved = 0
 
   checkout.items.forEach(item => {
-    const { price, exempt: isExempt } = item
+    const { price, exempt: isExempt , description} = item
     if (!isExempt && discount > 0) {
-
-      // add into total
+			
+			// add into total
       totalOfDiscountedItems += discountedPrice(discount, price)
-
+			
+      pushMessage(messages, description, price)
       // format percent
-      pushMessage(messages, item.description, price)
       // const amount = formatPrice(price)
       // const amountWidth = amount.length
 
@@ -124,29 +124,16 @@ export const postCheckoutTotal = (request, response) => {
     }
     else {
       total += price
-      pushMessage(messages, item.description, price)
-      // const text = item.description
-      // const amount = formatPrice(price)
-      // const amountWidth = amount.length
-
-      // const textWidth = LineWidth - amountWidth
-      // messages.push(pad(text, textWidth) + amount)
+      pushMessage(messages, description, price)
     }
   })
-
   total = floatToFixed(total)
 
   // append total line
-  const formattedTotal = formatPrice(total)
-  const formattedTotalWidth = formattedTotal.length
-  const textWidth = LineWidth - formattedTotalWidth
-  messages.push(pad('TOTAL', textWidth) + formattedTotal)
+	pushMessage(messages, 'TOTAL', total)
 
   if (totalSaved > 0) {
-    const formattedTotal = formatPrice(totalSaved)
-    const formattedTotalWidth = formattedTotal.length
-    const textWidth = LineWidth - formattedTotalWidth
-    messages.push(pad('*** You saved:', textWidth) + formattedTotal)
+		pushMessage(messages, '*** You saved:', totalSaved)
   }
 
   totalOfDiscountedItems = floatToFixed(totalOfDiscountedItems)
