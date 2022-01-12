@@ -69,10 +69,9 @@ const LineWidth = 45
 
 const floatToFixed = (amount) => Math.round(amount * 100) / 100
 
-const formatPrice = (price)=> parseFloat((Math.round(price * 100) / 100).toString()).toFixed(2)
+const formatPrice = (price)=> floatToFixed(price).toFixed(2)
 
 export const postCheckoutTotal = (request, response) => {
-
   const checkoutId = request.params.id
   const checkout = Checkouts.retrieve(checkoutId)
   if (!checkout) {
@@ -89,8 +88,7 @@ export const postCheckoutTotal = (request, response) => {
   let totalSaved = 0
 
   checkout.items.forEach(item => {
-    let price = item.price
-    const isExempt = item.exempt
+    const { price, exempt: isExempt } = item
     if (!isExempt && discount > 0) {
       const discountAmount = discount * price
       const discountedPrice = price * (1.0 - discount)
@@ -127,7 +125,7 @@ export const postCheckoutTotal = (request, response) => {
     }
   })
 
-  total = Math.round(total * 100) / 100
+  total = floatToFixed(total)
 
   // append total line
   const formattedTotal = formatPrice(total)
@@ -137,7 +135,6 @@ export const postCheckoutTotal = (request, response) => {
 
   if (totalSaved > 0) {
     const formattedTotal = formatPrice(totalSaved)
-    console.log(`formattedTotal: ${formattedTotal}`)
     const formattedTotalWidth = formattedTotal.length
     const textWidth = LineWidth - formattedTotalWidth
     messages.push(pad('*** You saved:', textWidth) + formattedTotal)
