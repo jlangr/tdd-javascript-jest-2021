@@ -95,7 +95,7 @@ export const postCheckoutTotal = (request, response) => {
 
       let text = item.description
       // format percent
-      const amount = parseFloat(roundTwoDecimalPlaces(price).toString()).toFixed(2)
+      const amount = formatAmount(price)
       const amountWidth = amount.length
 
       let textWidth = LineWidth - amountWidth
@@ -104,7 +104,7 @@ export const postCheckoutTotal = (request, response) => {
       total += discountedPrice
 
       // discount line
-      const discountFormatted = '-' + parseFloat(roundTwoDecimalPlaces(discountAmount).toString()).toFixed(2)
+      const discountFormatted = '-' + formatAmount(discountAmount)
       textWidth = LineWidth - discountFormatted.length
       text = `   ${discount * 100}% mbr disc`
       messages.push(`${pad(text, textWidth)}${discountFormatted}`)
@@ -114,7 +114,7 @@ export const postCheckoutTotal = (request, response) => {
     else {
       total += price
       const text = item.description
-      const amount = parseFloat(roundTwoDecimalPlaces(price).toString()).toFixed(2)
+      const amount = formatAmount(price)
       const amountWidth = amount.length
 
       const textWidth = LineWidth - amountWidth
@@ -122,10 +122,10 @@ export const postCheckoutTotal = (request, response) => {
     }
   })
 
-  total = Math.round(total * 100) / 100
+  total = roundTwoDecimalPlaces(total)
 
   // append total line
-  const formattedTotal = parseFloat(roundTwoDecimalPlaces(total).toString()).toFixed(2)
+  const formattedTotal = formatAmount(total)
   const formattedTotalWidth = formattedTotal.length
   const textWidth = LineWidth - formattedTotalWidth
   messages.push(pad('TOTAL', textWidth) + formattedTotal)
@@ -140,7 +140,7 @@ export const postCheckoutTotal = (request, response) => {
 
   totalOfDiscountedItems = roundTwoDecimalPlaces(totalOfDiscountedItems)
 
-  totalSaved = Math.round(totalSaved * 100) / 100
+  totalSaved = roundTwoDecimalPlaces(totalSaved)
 
   response.status = 200
   // send total saved instead
