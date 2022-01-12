@@ -1,9 +1,25 @@
+import { expect } from "chai";
 import Portfolio from "./portfolio";
 
 describe("Portfolio", () => {
   let portfolio;
   beforeEach(() => (portfolio = new Portfolio()));
+  fdescribe("value", () => {
 
+    it("has no value", () => {
+      expect(portfolio.getValue).toEqual(0);
+    });
+    it("returns value of 1 share", () => {
+      expect(portfolio.getValue).toEqual(1);
+    });
+    it("returns value of multiple share", () => {
+      expect(portfolio.getValue).toEqual(1);
+    });
+
+    it("returns value of share for multiple symbols", () => {
+      expect(portfolio.getValue).toEqual(1);
+    });
+  });
   it("No unique symbols on creation", () => {
     expect(portfolio.getSymbolCount).toEqual(0);
   });
