@@ -80,9 +80,19 @@ describe('shares portfolio', () => {
     })
 
     it('can calculate value for single share of single symbol', () => {
+      const stockPriceLookup = () => 10
+
       purchase(portfolio, 'BAYN', 1)
 
-      expect(valueOf(portfolio)).toBe()
+      expect(valueOf(portfolio,stockPriceLookup)).toBe(10)
+    })
+
+    it("can calculate value for multiple shares of single symbol ", () => {
+      const stockPriceLookup = () => 10
+
+      purchase(portfolio, 'BAYN', 2)
+
+      expect(valueOf(portfolio,stockPriceLookup)).toBe(20)
     })
   })
 
