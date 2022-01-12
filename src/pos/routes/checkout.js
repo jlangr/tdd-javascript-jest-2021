@@ -70,6 +70,8 @@ const LineWidth = 45
 const floatToFixed = (amount) => Math.round(amount * 100) / 100
 
 const formatPrice = (price)=> floatToFixed(price).toFixed(2)
+const discountAmount = (discount, price) => discount * price
+const discountedPrice = (discount, price) => price * (1.0 - discount)
 
 export const postCheckoutTotal = (request, response) => {
   const checkoutId = request.params.id
@@ -90,11 +92,9 @@ export const postCheckoutTotal = (request, response) => {
   checkout.items.forEach(item => {
     const { price, exempt: isExempt } = item
     if (!isExempt && discount > 0) {
-      const discountAmount = discount * price
-      const discountedPrice = price * (1.0 - discount)
 
       // add into total
-      totalOfDiscountedItems += discountedPrice
+      totalOfDiscountedItems += discountedPrice(discount, price)
 
       let text = item.description
       // format percent
@@ -104,15 +104,15 @@ export const postCheckoutTotal = (request, response) => {
       let textWidth = LineWidth - amountWidth
       messages.push(pad(text, textWidth) + amount)
 
-      total += discountedPrice
+      total += discountedPrice(discount, price)
 
       // discount line
-      const discountFormatted = '-' + formatPrice(discountAmount)
+      const discountFormatted = '-' + formatPrice(discountAmount(discount, price))
       textWidth = LineWidth - discountFormatted.length
       text = `   ${discount * 100}% mbr disc`
       messages.push(`${pad(text, textWidth)}${discountFormatted}`)
 
-      totalSaved += discountAmount
+      totalSaved += discountAmount(discount, price)
     }
     else {
       total += price
