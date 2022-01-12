@@ -105,9 +105,6 @@ export const postCheckoutTotal = (request, response) => {
     }
   })
 
-  total = roundTwoDecimalPlaces(total)
-
-  // append total line
   messages.push(formatReceiptEntry(total, 'TOTAL'))
 
   if (totalSaved > 0) {
@@ -119,7 +116,7 @@ export const postCheckoutTotal = (request, response) => {
 
   response.status = 200
   // send total saved instead
-  response.send({ id: checkoutId, total, totalOfDiscountedItems, messages, totalSaved })
+  response.send({ id: checkoutId, total: roundTwoDecimalPlaces(total), totalOfDiscountedItems, messages, totalSaved })
 }
 
 const roundTwoDecimalPlaces = (amount) => Math.round(amount * 100) / 100
