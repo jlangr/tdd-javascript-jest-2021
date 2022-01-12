@@ -1,22 +1,29 @@
 import Portfolio from "./portfolio";
+import { when } from 'jest-when'
+
+const BAYER_SHARE_VALUE = 10
+const MISC_SHARE_VALUE = 20
+
+const stubStockValue = jest.fn()
+when(stubStockValue).calledWith('BYER').mockReturnValue(BAYER_SHARE_VALUE)
+when(stubStockValue).calledWith('MISC').mockReturnValue(MISC_SHARE_VALUE)
 
 describe("Portfolio", () => {
   let portfolio;
   beforeEach(() => (portfolio = new Portfolio()));
   fdescribe("value", () => {
-    const stubFunction = (value) => value * 20
-
     it("has no value", () => {
       expect(portfolio.getValue()).toEqual(0);
     });
     it("returns value of 1 share", () => {
-      portfolio.purchase("ASDF", 1)
-
-      expect(portfolio.getValue(stubFunction(1))).toEqual(20);
+      portfolio.purchase("BYER", 1)
+			
+      expect(portfolio.getValue('BYER', stubStockValue())).toEqual(10);
     });
     it("returns value of multiple shares", () => {
+			portfolio.purchase("MISC", 2)
 
-      expect(portfolio.getValue(stubFunction())).toEqual(40);
+      expect(portfolio.getValue(stubStockValue())).toEqual(40);
     });
 
     xit("returns value of share for multiple symbols", () => {

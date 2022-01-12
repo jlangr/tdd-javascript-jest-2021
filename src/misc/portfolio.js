@@ -24,7 +24,7 @@ export default class Portfolio {
     return this.symbols.get(symbol) || 0;
   }
 
-  getValue(stockLookupFunction) {
+  getValue(symbol, stockLookupFunction) {
     if (stockLookupFunction) {
       return stockLookupFunction()
     }
