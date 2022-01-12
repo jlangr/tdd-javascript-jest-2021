@@ -45,3 +45,7 @@ export const sell = (portfolio, symbol, num) => {
   
   return newPortfolio
 }
+
+export const valueOf = (portfolio) => {
+  return 0
+}

@@ -1,4 +1,4 @@
-import {create, purchase, uniqueSymbolCount, getSymbolShares, sell} from './portfolio'
+import {create, purchase, uniqueSymbolCount, getSymbolShares, sell, valueOf} from './portfolio'
 
 describe('shares portfolio', () => {
 
@@ -72,6 +72,18 @@ describe('shares portfolio', () => {
 
   it('throws an error if trying to sell negative shares', () => {
     expect(() => sell(portfolio, "IBM", -10)).toThrow("Negative shares not allowed")
+  })
+
+  describe('stock symbol value', () => {
+    it('can calculate value for an empty portfolio', () => {
+      expect(valueOf(portfolio)).toBe(0)
+    })
+
+    it('can calculate value for single share of single symbol', () => {
+      purchase(portfolio, 'BAYN', 1)
+
+      expect(valueOf(portfolio)).toBe()
+    })
   })
 
 })
