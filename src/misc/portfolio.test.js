@@ -4,19 +4,19 @@ describe("Portfolio", () => {
   let portfolio;
   beforeEach(() => (portfolio = new Portfolio()));
   fdescribe("value", () => {
+    const stubFunction = (value) => value * 20
 
     it("has no value", () => {
       expect(portfolio.getValue()).toEqual(0);
     });
     it("returns value of 1 share", () => {
-      const stubFunction = () => 20
-
       portfolio.purchase("ASDF", 1)
 
-      expect(portfolio.getValue(stubFunction)).toEqual(20);
+      expect(portfolio.getValue(stubFunction(1))).toEqual(20);
     });
-    xit("returns value of multiple share", () => {
-      expect(portfolio.getValue).toEqual(1);
+    it("returns value of multiple shares", () => {
+
+      expect(portfolio.getValue(stubFunction())).toEqual(40);
     });
 
     xit("returns value of share for multiple symbols", () => {
