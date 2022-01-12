@@ -52,6 +52,6 @@ export const sell = (portfolio, symbol, num) => {
 
 export const valueOf = (portfolio, stockPriceLook) => {
   if(uniqueSymbolCount(portfolio) === 0){ return 0 }
-  const symbols = symbolsInPortfolio(portfolio)[0]
-  return stockPriceLook() * getSymbolShares(portfolio, symbols)
+  const symbol = symbolsInPortfolio(portfolio)[0]
+  return stockPriceLook(symbol) * getSymbolShares(portfolio, symbol)
 }

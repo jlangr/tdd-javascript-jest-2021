@@ -1,4 +1,5 @@
 import {create, purchase, uniqueSymbolCount, getSymbolShares, sell, valueOf} from './portfolio'
+import {when} from "jest-when";
 
 describe('shares portfolio', () => {
 
@@ -88,14 +89,15 @@ describe('shares portfolio', () => {
     })
 
     it("can calculate value for multiple shares of single symbol ", () => {
-      const stockPriceLookup = () => 10
+      const stockPriceLookup = jest.fn()
+      when(stockPriceLookup).calledWith('BAYN').mockReturnValue(10)
 
       purchase(portfolio, 'BAYN', 2)
 
       expect(valueOf(portfolio,stockPriceLookup)).toBe(20)
     })
 
-    it("can calculate value for multiple symbols in portfolio", () => {
+    xit("can calculate value for multiple symbols in portfolio", () => {
       const stockPriceLookup = (symbol) => {
         if (symbol === 'BAYN') return 10
         if (symbol === 'AAPL') return 100
