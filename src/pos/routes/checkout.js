@@ -86,22 +86,21 @@ export const postCheckoutTotal = (request, response) => {
   checkout.items.forEach(item => {
     let price = item.price
     const isExempt = item.exempt
+    messages.push(formatReceiptEntry(price, item.description))
+
     if (!isExempt && discount > 0) {
       const discountAmount = discount * price
       const discountedPrice = price * (1.0 - discount)
 
-      // add into total
       totalOfDiscountedItems += discountedPrice
-      messages.push(formatReceiptEntry(price, item.description))
-
       total += discountedPrice
+      totalSaved += discountAmount
+      
       messages.push(formatReceiptEntry(discountAmount*-1, `   ${discount * 100}% mbr disc`))
 
-      totalSaved += discountAmount
     }
     else {
       total += price
-      messages.push(formatReceiptEntry(price, item.description))
     }
   })
 
