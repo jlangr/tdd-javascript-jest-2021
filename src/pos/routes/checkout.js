@@ -92,31 +92,18 @@ const memberDiscountPercent = checkout =>
   checkout.member ? checkout.discount : 0
 
 const calculateTotalOfItemPrices = (checkout) => {
-  let totalOfItemPrices = 0
-  checkout.items.forEach(item => {
+  return checkout.items.reduce((total, item) => {
     if (shouldBeDiscounted(item, memberDiscountPercent(checkout)))
-      totalOfItemPrices += item.price * (1.0 - memberDiscountPercent(checkout))
+      return total + item.price * (1.0 - memberDiscountPercent(checkout))
     else
-      totalOfItemPrices += item.price
-  })
-  return totalOfItemPrices
+      return total + item.price
+  }, 0)
 }
 
 const calculateTotalSavedFromDiscounts = checkout =>
   discountableItems(checkout).reduce((total, item) =>
     total + memberDiscountPercent(checkout) * item.price,
   0)
-
-// const calculateTotalOfDiscountedItems = checkout => {
-//   let totalOfDiscountedItems = 0
-//   checkout.items.forEach(item => {
-//     if (shouldBeDiscounted(item, memberDiscountPercent(checkout))) {
-//       const discountedPrice = item.price * (1.0 - memberDiscountPercent(checkout))
-//       totalOfDiscountedItems += discountedPrice
-//     }
-//   })
-//   return totalOfDiscountedItems
-// }
 
 const discountableItems = checkout =>
   checkout.items.filter(item => shouldBeDiscounted(item, memberDiscountPercent(checkout)));
@@ -129,13 +116,15 @@ const calculateTotalOfDiscountedItems = checkout =>
 const discountedItemAmount = (checkout, item) =>
   memberDiscountPercent(checkout) * item.price
 
+const itemDetailMessages = (item, checkout) => {
+  const itemDetail = [createLineItem(item.price, item.description)]
+  if (shouldBeDiscounted(item, memberDiscountPercent(checkout)))
+    itemDetail.push(createLineItem(-discountedItemAmount(checkout, item), `   ${memberDiscountPercent(checkout) * 100}% mbr disc`))
+  return itemDetail
+};
+
 const createReceipt = (checkout, totals) => {
-  const messages = []
-  checkout.items.forEach(item => {
-    messages.push(createLineItem(item.price, item.description))
-    if (shouldBeDiscounted(item, memberDiscountPercent(checkout)))
-      messages.push(createLineItem(-discountedItemAmount(checkout, item), `   ${memberDiscountPercent(checkout) * 100}% mbr disc`))
-  })
+  const messages = checkout.items.flatMap(item => itemDetailMessages(item, checkout))
   messages.push(createLineItem(round(totals.totalOfItemPrices), 'TOTAL'))
   if (totals.totalSavedFromDiscounts > 0)
     messages.push(createLineItem(totals.totalSavedFromDiscounts, '*** You saved:'))
