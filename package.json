@@ -19,7 +19,7 @@
     "coffeescript": "^2.5.1",
     "eslint": "^5.8.0",
     "eslint-plugin-react": "^7.18.3",
-    "jest": "^24.9.0",
+    "jest": "^28.1.1",
     "jest-when": "^2.7.0",
     "sinon": "^7.5.0",
     "sinon-chai": "^3.4.0",
